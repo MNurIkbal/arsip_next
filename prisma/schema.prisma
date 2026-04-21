@@ -1,0 +1,43 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  Admin
+  Pegawai
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  name       String
+  email      String   @unique
+  password   String
+  role       Role     @default(Pegawai)
+  image  String?
+
+  created_at DateTime? @db.DateTime
+  
+  updated_at DateTime? @db.DateTime
+  deleted_at DateTime? @db.DateTime
+}
+
+
+
+model Arsip {
+  id         Int      @id @default(autoincrement())
+  judul      String 
+  tanggal    DateTime @db.Date
+  kategori   String
+  password_arsip String?
+  params  Json?
+
+  created_at DateTime? @db.DateTime
+  
+  updated_at DateTime? @db.DateTime
+  deleted_at DateTime? @db.DateTime
+}
