@@ -1,6 +1,7 @@
 export const createArsip = async (payload: any) => {
   const formData = new FormData();
   let response = null;
+  
   if (payload.id) {
     const id = formData.append("id", payload.id);
     formData.append("judul", payload.judul);

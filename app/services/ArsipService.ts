@@ -171,3 +171,33 @@ export async function getArsipResource({ search, page, limit, sort, order }: Get
         throw error;
     }
 }
+
+
+export async function updateArsip(id: number, payload: any) {
+    try {
+        const existingArsip = await prisma.arsip.findUnique({
+            where: { id },
+        });
+
+        if (!existingArsip) {
+            throw new Error("Data arsip tidak ditemukan.");
+        }
+
+        const result = await prisma.$transaction(async (tx: any) => {
+
+            const updatedArsip = await tx.arsip.update({
+                where: { id },
+                data: {
+                    judul: payload.judul,
+                    tanggal: new Date(payload.tanggal),
+                },
+            });
+            return updatedArsip;
+        });
+
+        return result;
+    } catch (error: any) {
+        console.error("Update Error:", error);
+        throw new Error(error.message || "Gagal memperbarui data.");
+    }
+}

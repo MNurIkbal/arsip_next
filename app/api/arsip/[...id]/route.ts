@@ -1,24 +1,32 @@
-import { sendError } from "@/app/utils/response";
+import { updateArsip } from "@/app/services/ArsipService";
+import { sendError, successResponse } from "@/app/utils/response";
 
-export async function DELETE(
-  req: Request, 
+export async function PUT(
+  req: Request,
   { params }: { params: Promise<{ id: string[] }> }
 ) {
   try {
-    const { id: slug } = await params;
+    const { id } = await params;
 
-    if (!slug || slug.length < 2) {
-      return sendError("Format URL salah.", 400);
+    
+    if (!id || isNaN(Number(id))) {
+      return sendError("ID tidak valid atau tidak ditemukan.", 400);
     }
 
-    const idDatabase = slug[0]; 
-    const indexString = slug[1]; 
+    const idData = id[0];
 
-    const idNum = parseInt(idDatabase);
-    const indexNum = parseInt(indexString);
+    const ids = parseInt(idData);
 
-    if (isNaN(idNum) || isNaN(indexNum)) {
-      return sendError("ID dan Index harus berupa angka valid", 400);
+    if (isNaN(ids)) {
+      return sendError("ID harus berupa angka valid", 400);
+    }
+
+    const update = updateArsip(ids, await req.formData());
+    console.log(update);
+
+
+    if (update) {
+      return successResponse(null, "Data berhasil diperbarui", 200);
     }
 
     return sendError("Data tidak ditemukan", 404);
