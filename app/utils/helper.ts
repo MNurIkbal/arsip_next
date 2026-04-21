@@ -39,17 +39,15 @@ export const confirmDelete = async (url: string, onSuccess?: () => void) => {
     try {
       const response = await fetch(`${url}`, {
         method: "DELETE",
-      }); 
-      const datas = await response.json();
-      console.log(datas);
-      
+      });
 
       if (!response.ok) throw new Error("Gagal menghapus data");
-      const data = await response.json();
-      await Swal.fire("Berhasil!", data.message, "success");
+      await Swal.fire("Berhasil!", "Data berhasil dihapus.", "success");
 
       if (onSuccess) onSuccess();
     } catch (error) {
+      console.log(error);
+      
       Swal.fire("Error!", "Terjadi kesalahan saat menghapus.", "error");
     }
   }

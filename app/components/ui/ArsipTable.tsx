@@ -11,10 +11,10 @@ import BaseModal from "@/app/components/ui/BaseModal";
 import ArsipForm from "@/app/components/ui/ArsipForm";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebounce } from "use-debounce";
-import { formatDateIndonesia } from "@/app/utils/helper";
+import { confirmDelete, formatDateIndonesia } from "@/app/utils/helper";
 import { ArsipPageProps } from "@/app/types/GlobalType";
 import { fetchArsip } from "@/app/hooks/ArsipHooks";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 
 export default function ArsipClientContent({ serverPage, serverLimit, serverSearch }: ArsipPageProps) {
     const router = useRouter();
@@ -58,13 +58,11 @@ export default function ArsipClientContent({ serverPage, serverLimit, serverSear
         });
     };
 
-    // Fungsi untuk handle klik header
     const handleSort = (column: string) => {
         const newOrder = currentSort === column && currentOrder === "asc" ? "desc" : "asc";
         updateQuery({ sort: column, order: newOrder, page: 1 });
     };
 
-    // Komponen Ikon Sort
     const SortIcon = ({ column }: { column: string }) => {
         if (currentSort !== column) return <ArrowUpDown className="ml-2 h-3 w-3 opacity-30" />;
         return currentOrder === "asc"
@@ -204,7 +202,11 @@ export default function ArsipClientContent({ serverPage, serverLimit, serverSear
                                             >
                                                 <Pencil className="h-4 w-4" />
                                             </Button>
-                                            <Button variant="outline" size="icon" className="h-8 w-8 text-red-600 cursor-pointer bg-red-50">
+                                            <Button variant="outline" size="icon" className="h-8 w-8 text-red-600 cursor-pointer bg-red-50" onClick={() =>
+                                                confirmDelete(`/api/arsip/${item.id}`, async () => {
+                                                    await mutate((key) => Array.isArray(key) && key[0] === "/api/arsip");
+                                                })
+                                            }>
                                                 <Trash2 className="h-4 w-4" />
                                             </Button>
                                         </div>

@@ -96,8 +96,6 @@ export const useArsipForm = (initialData: any, onCancel: () => void) => {
     const mutation = useMutation({
         mutationFn: createArsip,
         onSuccess: async (data) => {
-            console.log(data);
-            
             await mutate((key) => Array.isArray(key) && key[0] === "/api/arsip");
             Swal.fire("Berhasil", "Data arsip disimpan", "success");
             onCancel();
