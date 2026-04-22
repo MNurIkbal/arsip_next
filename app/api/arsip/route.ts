@@ -8,7 +8,6 @@ import { Auth } from "@/app/lib/Auth";
 export const GET = Auth(async (req: NextRequest, user: any) => {
   const { searchParams } = new URL(req.url);
 
-  // Parsing & Validasi Input
   const search = searchParams.get("search") || "";
   const page = Number(searchParams.get("page") || "1");
   const limit = Number(searchParams.get("limit") || "10");
@@ -46,7 +45,6 @@ export const POST = Auth(async (req: NextRequest, user: any) => {
       index++;
     }
 
-
     const dataToValidate = {
       judul,
       tanggal,
@@ -63,13 +61,11 @@ export const POST = Auth(async (req: NextRequest, user: any) => {
       return sendError(firstErrorMessage as string, 400, validation.errors);
     }
     
-
-    // Eksekusi Store (Sekarang mengembalikan object dari Database)
     const result = await store({
       judul,
       tanggal,
       kategori,
-      password_arsip: kategori === DOKUMEN_RAHASIA ? password_arsip : null, // Hanya kirim password jika Rahasia
+      password_arsip: kategori === DOKUMEN_RAHASIA ? password_arsip : null, 
       attachments
     });
 

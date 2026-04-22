@@ -7,7 +7,6 @@ export const getUser = ({
   search,
 }: UseUsersProps) => {
   return useQuery({
-    // 🔥 penting: masukin sorting ke queryKey
     queryKey: ["users", pageIndex, pageSize, search],
 
     queryFn: async () => {

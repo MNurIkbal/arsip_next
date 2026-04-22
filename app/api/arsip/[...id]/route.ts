@@ -8,7 +8,6 @@ export async function PUT(
   try {
     const { id } = await params;
 
-
     if (!id || isNaN(Number(id))) {
       return sendError("ID tidak valid atau tidak ditemukan.", 400);
     }
@@ -41,7 +40,6 @@ export async function DELETE(
   try {
     const { id } = await params;
     const IdArsip = Number(id);
-
 
     if (isNaN(IdArsip)) {
       return sendError("ID tidak valid", 400);
