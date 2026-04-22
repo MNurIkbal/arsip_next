@@ -5,7 +5,6 @@ import { NextRequest } from "next/server";
 
 export const GET = Auth(async (req: NextRequest, user: any) => {
     try {
-
         const result = await GetDashboardData();
         return result;
     } catch (error) {
