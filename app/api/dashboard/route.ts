@@ -1,6 +1,6 @@
 import { Auth } from "@/app/lib/Auth";
 import { GetDashboardData } from "@/app/services/DashboardService";
-import { sendError, successResponse } from "@/app/utils/response";
+import { sendError } from "@/app/utils/response";
 import { NextRequest } from "next/server";
 
 export const GET = Auth(async (req: NextRequest, user: any) => {
