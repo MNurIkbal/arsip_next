@@ -7,9 +7,7 @@ export const GET = Auth(async (req: NextRequest, user: any) => {
     try {
 
         const result = await GetDashboardData();
-return result;
-        return successResponse(result, "Data dashboard berhasil diambil", 200);
-
+        return result;
     } catch (error) {
         console.error("GET_USERS_ERROR:", error);
         return sendError("Gagal mengambil data user", 500, error);
