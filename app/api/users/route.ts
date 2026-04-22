@@ -4,7 +4,8 @@ import { getUsersService, store } from "@/app/services/UserService";
 import { validateUser } from "@/app/utils/validation";
 import { Auth } from "@/app/lib/Auth";
 
-export const GET = Auth(async (req: NextRequest, user: any) => {  try {
+export const GET = Auth(async (req: NextRequest, user: any) => { 
+  try {
     const { searchParams } = new URL(req.url);
 
     const result = await getUsersService({

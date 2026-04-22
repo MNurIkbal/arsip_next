@@ -75,13 +75,13 @@ export default function UserTable() {
         const img = info.getValue();
         return (
           <div className="relative w-[60px] h-[60px]">
-            <Image
-              src={'/' + img}
+            {/* <Image
+              src={img}
               alt="User Image"
               fill
               sizes="60px"
               className="rounded-full object-cover"
-            />
+            /> */}
           </div>
         );
       },

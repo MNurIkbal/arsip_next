@@ -3,10 +3,10 @@ import { validateArsip } from "@/app/utils/validation";
 import { getArsipResource, store } from "@/app/services/ArsipService";
 import { NextRequest } from "next/server";
 import { DOKUMEN_RAHASIA } from "@/app/types/Constant";
+import { Auth } from "@/app/lib/Auth";
 
-
-export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
+export const GET = Auth(async (req: NextRequest, user: any) => {
+  const { searchParams } = new URL(req.url);
 
   // Parsing & Validasi Input
   const search = searchParams.get("search") || "";
@@ -18,16 +18,14 @@ export async function GET(request: NextRequest) {
   try {
     const result = await getArsipResource({ search, page, limit,sort,order });
 
-
-    // Kirim Response
     return successResponse(result,"Data berhasil ditampilkan",200);
   } catch (error) {
     console.error("API Error:", error);
     return sendError('Gagal memuat data arsip',500,null);
   }
-}
+},["Admin","Pegawai"]);
 
-export async function POST(req: NextRequest) {
+export const POST = Auth(async (req: NextRequest, user: any) => {
   try {
     const formData = await req.formData();
 
@@ -87,4 +85,4 @@ export async function POST(req: NextRequest) {
     console.error("API Error:", error);
     return sendError("Terjadi kesalahan pada server", 500, error.message);
   }
-}
+},["Admin","Pegawai"]);
