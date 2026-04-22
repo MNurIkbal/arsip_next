@@ -76,10 +76,9 @@ export default function UserTable() {
         return (
           <div className="relative w-[60px] h-[60px]">
             <Image
-              src={img}
+              src={'/' + img}
               alt="User Image"
               fill
-              // Tambahkan baris ini
               sizes="60px"
               className="rounded-full object-cover"
             />
@@ -148,15 +147,10 @@ export default function UserTable() {
             >
               <Pencil className="w-4 h-4" />
             </button>
-
-            {/* DELETE */}
             <button
               onClick={() =>
                 confirmDelete(`/api/users/${user.id}`, () => {
-                  // 1. Refresh untuk TanStack Query (Client Side Cache)
                   queryClient.invalidateQueries({ queryKey: ["users"] });
-
-                  // 2. Refresh untuk Server Components (Next.js Cache)
                   router.refresh();
                 })
               }
@@ -205,7 +199,7 @@ export default function UserTable() {
         onClick={() => setModalConfig({ isOpen: true, type: "ADD", data: null })}
         className="bg-indigo-600 font-semibold ml-4 mt-4 cursor-pointer text-white px-5 py-2 rounded-xl font-bold shadow-lg"
       >
-        
+
         Tambah Data
       </button>
 

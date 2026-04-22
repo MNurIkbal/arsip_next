@@ -2,9 +2,9 @@ import { NextRequest } from "next/server";
 import { sendTableResponse, sendError, successResponse } from "@/app/utils/response";
 import { getUsersService, store } from "@/app/services/UserService";
 import { validateUser } from "@/app/utils/validation";
+import { Auth } from "@/app/lib/Auth";
 
-export async function GET(req: NextRequest) {
-  try {
+export const GET = Auth(async (req: NextRequest, user: any) => {  try {
     const { searchParams } = new URL(req.url);
 
     const result = await getUsersService({
@@ -23,9 +23,9 @@ export async function GET(req: NextRequest) {
     console.error("GET_USERS_ERROR:", error);
     return sendError("Gagal mengambil data user", 500, error);
   }
-}
+},["Admin"]);
 
-export async function POST(req: Request) {
+export const POST = Auth(async (req: NextRequest, user: any) => {
   try {
     const formData = await req.formData();
     
@@ -64,4 +64,4 @@ export async function POST(req: Request) {
 
     return sendError("Terjadi kesalahan pada server", 500, error.message);
   }
-}
+},["Admin"]);

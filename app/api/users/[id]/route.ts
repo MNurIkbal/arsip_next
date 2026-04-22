@@ -1,11 +1,14 @@
 import { sendError, successResponse } from "@/app/utils/response";
 import { validateUser } from "@/app/utils/validation";
 import { deleteUser, update } from "@/app/services/UserService";
+import { Auth } from "@/app/lib/Auth";
 
-export async function PUT(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export const PUT = Auth(
+  async (
+    req: Request,
+    user: any, 
+    { params }: { params: Promise<{ id: string }> }
+  ) => {
   try {
     const id = (await params).id;
     const userId = Number(id);
@@ -39,13 +42,15 @@ export async function PUT(
 
     return sendError("Terjadi kesalahan pada server", 500, error.message);
   }
-}
+},["Admin"]);
 
-export async function DELETE(
-  req: Request, 
-  { params }: { params: Promise<{ id: string }> }
-) {
-  try {
+export const DELETE = Auth(
+  async (
+    req: Request,
+    user: any,
+    { params }: { params: Promise<{ id: string }> }
+  ) => {
+    try {
 
     const { id } = await params;
     const userId = Number(id);
@@ -66,4 +71,4 @@ export async function DELETE(
   } catch (error: any) {
     return sendError(error.message || "Gagal menghapus user", 500);
   }
-}
+},["Admin"]);
